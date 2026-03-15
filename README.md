@@ -96,6 +96,52 @@ You: "Click the submit button and wait for results"
 Claude: uses cdp_click + cdp_wait → interacts with the page
 ```
 
+## CDP vs WebSearch — What's the Difference?
+
+### WebSearch / WebFetch (built-in Claude Code)
+
+```
+Claude  →  Search Engine API  →  text results
+```
+
+- **Read-only** — fetches search results or raw HTML from a URL
+- **No interaction** — can't click, scroll, fill forms, or login
+- **No browser** — doesn't render JavaScript, so SPA websites (React, Vue) return empty content
+- **No session** — no cookies, can't access your logged-in accounts
+- **Good for:** searching public info, reading articles, fetching APIs
+
+### CDP MCP (this project)
+
+```
+Claude  →  MCP Server  →  Chrome (your actual browser)  →  web
+```
+
+- **Full browser control** — like you're using Chrome yourself
+- **Interactive** — click, type, scroll, wait for loading
+- **Renders JavaScript** — modern SPA websites fully accessible
+- **Session-aware** — can login, cookies persist, access private dashboards
+- **Visual** — can take screenshots of pages
+- **Downloads** — can grab PDF files, reports, etc.
+
+### Real-World Comparison
+
+| Scenario | WebSearch | CDP |
+|----------|-----------|-----|
+| Search "BBCA stock price today" | Yes | Yes |
+| Login to Stockbit, extract portfolio | No | **Yes** |
+| Scrape financial tables from SPA | No (JS doesn't render) | **Yes** |
+| Fill search forms, click filters | No | **Yes** |
+| Download annual report PDF | No | **Yes** |
+| Take a webpage screenshot | No | **Yes** |
+| Read a Wikipedia article | Yes | Yes (overkill) |
+
+### When to Use Which?
+
+- **WebSearch** — public info, fast, lightweight, no interaction needed
+- **CDP** — login required, interaction, JS rendering, screenshots, or downloads
+
+In short: **WebSearch is Google Search**, **CDP is you holding the mouse and keyboard in Chrome**.
+
 ## How it Works
 
 ```

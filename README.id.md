@@ -96,6 +96,52 @@ Kamu: "Klik tombol submit dan tunggu hasilnya"
 Claude: pakai cdp_click + cdp_wait → interaksi dengan halaman
 ```
 
+## CDP vs WebSearch — Apa Bedanya?
+
+### WebSearch / WebFetch (bawaan Claude Code)
+
+```
+Claude  →  API Search Engine  →  hasil teks
+```
+
+- **Cuma baca** — ambil hasil pencarian atau fetch HTML mentah dari URL
+- **Tidak bisa interaksi** — tidak bisa klik, scroll, isi form, login
+- **Tidak ada browser** — tidak render JavaScript, jadi website SPA (React, Vue) tidak bisa diakses isinya
+- **Tidak ada session** — tidak ada cookies, tidak bisa login ke akun kamu
+- **Cocok untuk:** cari informasi publik, baca artikel, fetch API
+
+### CDP MCP (project ini)
+
+```
+Claude  →  MCP Server  →  Chrome (browser asli kamu)  →  web
+```
+
+- **Full kontrol browser** — seperti kamu sendiri yang pakai Chrome
+- **Bisa interaksi** — klik, ketik, scroll, tunggu loading
+- **Render JavaScript** — website modern (SPA) bisa diakses sepenuhnya
+- **Ada session** — bisa login, cookies tersimpan, akses dashboard pribadi
+- **Bisa screenshot** — lihat visual halaman
+- **Bisa download** — ambil file PDF, laporan, dll
+
+### Perbandingan Nyata
+
+| Skenario | WebSearch | CDP |
+|----------|-----------|-----|
+| Cari "harga BBCA hari ini" | Bisa | Bisa |
+| Buka Stockbit, login, ambil portofolio | Tidak bisa | **Bisa** |
+| Scrape tabel laporan keuangan dari SPA | Tidak bisa (JS tidak render) | **Bisa** |
+| Isi form pencarian, klik filter | Tidak bisa | **Bisa** |
+| Download PDF laporan tahunan | Tidak bisa | **Bisa** |
+| Screenshot halaman web | Tidak bisa | **Bisa** |
+| Baca artikel Wikipedia | Bisa | Bisa (overkill) |
+
+### Kapan Pakai Yang Mana?
+
+- **WebSearch** — info publik, cepat, ringan, tidak butuh interaksi
+- **CDP** — butuh login, interaksi, JavaScript rendering, screenshot, atau download
+
+Singkatnya: **WebSearch itu Google Search**, **CDP itu kamu yang pegang mouse dan keyboard di Chrome**.
+
 ## Cara Kerja
 
 ```
